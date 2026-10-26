@@ -13,14 +13,15 @@ tool, and a rulebook strict enough to be useful is strict enough to be
 weaponised. PR Rounders shows how far that goes on your repository, with your
 rules, on your tickets.
 
-## The two Gardener modes
+## The three Gardener modes
 
 | Mode | What the Gardener does | Use it for |
 |---|---|---|
 | **maximum-postpone** (default) | One code-review effort level per round, starting at `low`. Posts the smallest legitimate blocker, queues the rest, drains the queue before raising the level, approves only after an empty `max` pass. | Measuring how many rounds a PR can be held, legitimately. |
 | **review** | One full pass per round at whatever depth it needs, posts the single strongest blocker, approves when nothing legitimate is left. | A baseline: what an honest, adversarial reviewer does without a quota. |
+| **bugs-only** | Same drip, but the only thing that blocks is a reproduced bug inside the PR's scope: the ticket not fixed, a regression, or the PR's own code giving a wrong result. No rule citations, no verification gaps. Logs when each bug was found and when it was posted. | Testing a review process that cannot be weaponised with the rulebook: a PR with five bugs earns five rounds, and that is on the Builder. |
 
-Both modes share the same honesty filter. A blocker counts only if it cites a
+All modes share the same honesty filter. A blocker counts only if it cites a
 rule by file and section, reproduces a concrete failure (input, path, output),
 or names a verification gap. Taste, scope creep and remembered rules the
 Gardener cannot find in the rulebook are out. A withdrawn blocker is logged as
@@ -34,7 +35,7 @@ reads as legitimate and the experiment learns nothing.
 
 ```
 agents/builder.md             the Builder agent definition
-agents/gardener.md            the Gardener agent definition, both modes
+agents/gardener.md            the Gardener agent definition, three modes
 skills/pr-rounders/SKILL.md   the conductor's runbook: setup, the loop, termination, the log
 skills/pr-rounders/run-log-template.md
 results/vorta-2026-10.md      the first runs on a private Rails codebase (VORTA)
@@ -117,9 +118,18 @@ If you are a Claude Code session asked to run or extend PR Rounders:
 
 ## Status
 
-Two runs on one private codebase so far (see `results/`). The dispute and
-stalemate paths of the protocol have not yet been exercised: every blocker in
-both runs was accepted by the Builder.
+Three runs on one private codebase so far (see `results/`): `review`,
+an effort ramp, and `maximum-postpone`. The dispute path was exercised twice
+in run 3, both disputes upheld; the stalemate path has not been. The
+`bugs-only` mode is written and its run is next.
+
+## Why
+
+With AI in every toolbox, a reviewer who wants to look indispensable can
+tell their model "start small, find a blocker, keep going" and hold a
+colleague's PR for seven rounds without posting one illegitimate comment.
+Run 3 shows that on a two-line fix. The harness exists to measure that, and
+to test the alternative: a process where the only reason to block is a bug.
 
 ## License
 

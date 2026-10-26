@@ -12,7 +12,8 @@ Two agents, defined in `.claude/agents/`:
 - **Gardener** reviews with the declared goal of stopping the PR, one blocker
   per round, citing a rule, a concrete failure or a verification gap. Mode
   `maximum-postpone` (default) drips the smallest blocker at one effort level
-  per round; mode `review` posts the strongest at full depth.
+  per round; mode `review` posts the strongest at full depth; mode
+  `bugs-only` keeps the drip but blocks only on a reproduced in-scope bug.
 
 Both read the same rulebook and nothing else counts as a rule. This session is
 the **conductor**: it runs the loop, relays only round numbers, and keeps the
@@ -109,3 +110,9 @@ cited and how many candidates were found versus posted, the Builder's answer
 Record cost per agent and per round from the usage reports: tool calls,
 minutes, tokens. Whether the Gardener's effort rises or drains across rounds
 is one of the things the run is for.
+
+In `bugs-only`, also collect the Gardener's found-at / posted-at log at the
+end and add a **Found in round** column to each blocker row. Compare the
+run's round count with the earlier modes' blocker-carrying rounds, not their
+totals: maximum-postpone's empty ladder passes are the protocol's, not the
+rulebook's.

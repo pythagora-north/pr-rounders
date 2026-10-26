@@ -1,6 +1,6 @@
 # <Run name>: #<ticket> <ticket title>
 
-Gardener mode: <maximum-postpone | review>. Models: Builder <model>, Gardener <model>.
+Gardener mode: <maximum-postpone | review | bugs-only>. Models: Builder <model>, Gardener <model>.
 Branch `rounders/<slug>`, worktree `.claude/worktrees/rounders-<slug>`, port <port>.
 Rulebook: <files, at base sha>. Started <date>. Draft PR #<n>, round 0 sha <sha>.
 
